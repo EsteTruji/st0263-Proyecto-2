@@ -3,7 +3,7 @@
 ## Instructivo Paso a Paso:
 
 ### Creación y configuración inicial de instancias.
-Primero, cree 3 máquinas virtuales en GCP. Llame a una de ellas microk8s-master, y a las otras dos microk8s-worker-1 y microk8s-worker-2, respectivamente. Para las tres máquinas utilice la imagen de Ubuntu, y cambie el almacenamiento a 20 gb. Habilite también las conexiones HTTP, HTTPS, y las verificaciones del balanceador.
+Primero, cree 4 máquinas virtuales en GCP. Llame a una de ellas microk8s-master, y a otras dos microk8s-worker-1 y microk8s-worker-2, respectivamente, y finalmente a otra instancia llamada microk8s-nfs. Para las cuatro máquinas utilice la imagen de Ubuntu, y cambie el almacenamiento a 20 gb. Habilite también las conexiones HTTP, HTTPS, y las verificaciones del balanceador.
 
 ### Configuración inicial de instancia master.
 - Conéctese a la instancia de microk8s-master a través de SSH.
@@ -219,7 +219,7 @@ microk8s add-node
 ```
 
 Le mostrará entonces un comando que debe ejecutar en la instancia ```microk8s-worker-1```. Ejecútelo allí.
-Una vez le diga que se conectó al cluster satisfactoriamente ejecute nuevamente el mismo comando en la instancia master. Nuevamente, ejecute el comando que se le muestre en la consola peroe sta vez en la instancia ```microk8s-worker-2```. 
+Una vez le diga que se conectó al cluster satisfactoriamente ejecute nuevamente el mismo comando en la instancia master. Nuevamente, ejecute el comando que se le muestre en la consola pero esta vez en la instancia ```microk8s-worker-2```. 
 
 Cuando ejecute el comando 
 ```
@@ -229,8 +229,38 @@ en la instancia master, después de haber hecho lo anterior, podrá ver los dos 
 
 ![image](https://github.com/EsteTruji/st0263-Proyecto-2/assets/82886890/ca8be860-01a9-47fa-bdee-2a7c23c38577)
 
+### Configuración NFS.
 
+Conéctese a la instancia microk8s-nfs a través de SSH.
 
+- Proceda después a instalar el servidor NFS con el siguiente comando:
 
-
+```
+sudo apt update
+sudo apt install nfs-kernel-server
+```
+- Ahora, cree el directorio que se compartirá:
+```
+sudo mkdir -p /mnt/wordpress
+```
+- Cambie el propietario del directorio:
+```
+sudo chown nobody:nogroup /mnt/wordpress
+```
+-Después, cambie los permisos del directorio:
+```
+sudo chmod 777 /mnt/wordpress
+```
+- Edite el archivo /etc/exports:
+```
+sudo nano /etc/exports
+```
+- Deberá añadir entonces la siguiente línea en el archivo recién creado y abierto:
+```
+/mnt/wordpress *(rw,sync,no_subtree_check)
+```
+- Guarde los cambios hechos en el archivo, y después reinicie el servicio de NFS:
+```
+sudo systemctl restart nfs-kernel-server
+```
 
