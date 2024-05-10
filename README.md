@@ -374,7 +374,11 @@ mountOptions:
 ```
 kubectl apply -f nfs-csi.yaml
 ```
-- Después de ello, cree el PersistentVolumeClaim en un archivo nfs-pvc.yaml:
+- Después de ello, cree el PersistentVolumeClaim con el siguiente comando:
+```
+nano nfs-pvc.yaml
+```
+- Después, en ese archivo recién creado y abierto coloque el siguiente contenido:
 ```
 ---
 apiVersion: v1
