@@ -8,7 +8,7 @@ Primero, cree 3 máquinas virtuales en GCP. Llame a una de ellas microk8s-master
 ### Configuración inicial de instancia master.
 - Conéctese a la instancia de microk8s-master a través de SSH.
   
-- Ejecute el comando:
+Ejecute el comando:
   
 ```sudo apt update```
   
