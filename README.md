@@ -210,24 +210,6 @@ Así, ya solo debera usar el prefijo ```kubectl```.
 
 - Finalice la conexión, e inicie una nueva a través de SSH con la instancia ```microk8s-master```, nuevamente.
 
-### Creación del clúster.
-
-En la instancia master ejecute el comando:
-
-```
-microk8s add-node
-```
-
-Le mostrará entonces un comando que debe ejecutar en la instancia ```microk8s-worker-1```. Ejecútelo allí.
-Una vez le diga que se conectó al cluster satisfactoriamente ejecute nuevamente el mismo comando en la instancia master. Nuevamente, ejecute el comando que se le muestre en la consola pero esta vez en la instancia ```microk8s-worker-2```. 
-
-Cuando ejecute el comando 
-```
-kubectl get nodes
-``` 
-en la instancia master, después de haber hecho lo anterior, podrá ver los dos nodos workers recién añadidos al clúster.
-
-![image](https://github.com/EsteTruji/st0263-Proyecto-2/assets/82886890/ca8be860-01a9-47fa-bdee-2a7c23c38577)
 
 ### Configuración NFS.
 
@@ -247,7 +229,7 @@ sudo mkdir -p /mnt/wordpress
 ```
 sudo chown nobody:nogroup /mnt/wordpress
 ```
--Después, cambie los permisos del directorio:
+- Después, cambie los permisos del directorio:
 ```
 sudo chmod 777 /mnt/wordpress
 ```
@@ -263,4 +245,24 @@ sudo nano /etc/exports
 ```
 sudo systemctl restart nfs-kernel-server
 ```
+
+### Creación del clúster.
+
+En la instancia master ejecute el comando:
+
+```
+microk8s add-node
+```
+
+Le mostrará entonces un comando que debe ejecutar en la instancia ```microk8s-worker-1```. Ejecútelo allí.
+Una vez le diga que se conectó al cluster satisfactoriamente ejecute nuevamente el mismo comando en la instancia master. Nuevamente, ejecute el comando que se le muestre en la consola pero esta vez en la instancia ```microk8s-worker-2```. 
+
+Cuando ejecute el comando 
+```
+kubectl get nodes
+``` 
+en la instancia master, después de haber hecho lo anterior, podrá ver los dos nodos workers recién añadidos al clúster.
+
+![image](https://github.com/EsteTruji/st0263-Proyecto-2/assets/82886890/ca8be860-01a9-47fa-bdee-2a7c23c38577)
+
 
