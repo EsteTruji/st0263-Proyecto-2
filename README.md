@@ -348,7 +348,11 @@ microk8s helm3 install csi-driver-nfs csi-driver-nfs/csi-driver-nfs \
  --set kubeletDir=/var/snap/microk8s/common/var/lib/kubelet
 ```
 
-- Cree el StorageClass en un archivo nfs-csi.yaml:
+- Cree el StorageClass con el siguiente comando:
+```
+nano nfs-csi.yaml
+```
+- En ese archivo creado y abierto pegue lo siguiente:
 
 ```
 apiVersion: storage.k8s.io/v1
