@@ -10,15 +10,15 @@ Primero, cree 3 máquinas virtuales en GCP. Llame a una de ellas microk8s-master
   
 - Ejecute el comando:
   
-```sudo apt update```.
+```sudo apt update```
   
 - Después, ejecute el comando:
   
- ```sudo snap install microk8s --classic```.
+ ```sudo snap install microk8s --classic```
   
 - Para realizar una verificación, ejecute el comando:
   
-```microk8s status --wait-ready```.
+```microk8s status --wait-ready```
 Saldrá entonces un mensaje como el siguiente:
 
 ![image](https://github.com/EsteTruji/st0263-Proyecto-2/assets/82886890/443f0b3f-ac09-4343-a47e-11652977718a)
@@ -33,7 +33,7 @@ Saldrá entonces un mensaje como el siguiente:
   
 - Vuelva a ejecutar el comando:
   
-```microk8s status --wait-ready```.
+```microk8s status --wait-ready```
 Le aparecerá ahora sí un mensaje que dice que microk8s está ejecutándose.
 
 - Ahora, ejecute el comando:
@@ -43,7 +43,7 @@ Con este comando podrá instalar los plugins necesarios para microk8s.
 
 - Después, habilite el plugin necesario para utilizar NGINX nativo con el comando:
   
-```microk8s enable ingress```.
+```microk8s enable ingress```
 
 A partir de acá será necesario usar comandos que tienen el prefijo ```microk8s kubectl```. Sin embargo, esto puede ser largo y tornarse ineficiente en términos de escritura. Por lo tanto, usaremos un alias para evitar tener que escribirlo completo. 
 Para ello, ejecute el comando:
@@ -58,15 +58,15 @@ Así, ya solo debera usar el prefijo ```kubectl```.
   
 - Ejecute el comando:
   
-```sudo apt update```.
+```sudo apt update```
   
 - Después, ejecute el comando:
   
- ```sudo snap install microk8s --classic```.
+ ```sudo snap install microk8s --classic```
   
 - Para realizar una verificación, ejecute el comando:
   
-```microk8s status --wait-ready```.
+```microk8s status --wait-ready```
 Saldrá entonces un mensaje como el siguiente:
 
 ![image](https://github.com/EsteTruji/st0263-Proyecto-2/assets/82886890/443f0b3f-ac09-4343-a47e-11652977718a)
@@ -81,7 +81,7 @@ Saldrá entonces un mensaje como el siguiente:
   
 - Vuelva a ejecutar el comando:
   
-```microk8s status --wait-ready```.
+```microk8s status --wait-ready```
 Le aparecerá ahora sí un mensaje que dice que microk8s está ejecutándose.
 
 - Ahora, ejecute el comando:
@@ -91,7 +91,7 @@ Con este comando podrá instalar los plugins necesarios para microk8s.
 
 - Después, habilite el plugin necesario para utilizar NGINX nativo con el comando:
   
-```microk8s enable ingress```.
+```microk8s enable ingress```
 
 A partir de acá será necesario usar comandos que tienen el prefijo ```microk8s kubectl```. Sin embargo, esto puede ser largo y tornarse ineficiente en términos de escritura. Por lo tanto, usaremos un alias para evitar tener que escribirlo completo. 
 Para ello, ejecute el comando:
@@ -106,15 +106,15 @@ Así, ya solo debera usar el prefijo ```kubectl```.
   
 - Ejecute el comando:
   
-```sudo apt update```.
+```sudo apt update```
   
 - Después, ejecute el comando:
   
- ```sudo snap install microk8s --classic```.
+ ```sudo snap install microk8s --classic```
   
 - Para realizar una verificación, ejecute el comando:
   
-```microk8s status --wait-ready```.
+```microk8s status --wait-ready```
 Saldrá entonces un mensaje como el siguiente:
 
 ![image](https://github.com/EsteTruji/st0263-Proyecto-2/assets/82886890/443f0b3f-ac09-4343-a47e-11652977718a)
@@ -129,7 +129,7 @@ Saldrá entonces un mensaje como el siguiente:
   
 - Vuelva a ejecutar el comando:
   
-```microk8s status --wait-ready```.
+```microk8s status --wait-ready```
 Le aparecerá ahora sí un mensaje que dice que microk8s está ejecutándose.
 
 - Ahora, ejecute el comando:
@@ -139,7 +139,7 @@ Con este comando podrá instalar los plugins necesarios para microk8s.
 
 - Después, habilite el plugin necesario para utilizar NGINX nativo con el comando:
   
-```microk8s enable ingress```.
+```microk8s enable ingress```
 
 A partir de acá será necesario usar comandos que tienen el prefijo ```microk8s kubectl```. Sin embargo, esto puede ser largo y tornarse ineficiente en términos de escritura. Por lo tanto, usaremos un alias para evitar tener que escribirlo completo. 
 Para ello, ejecute el comando:
