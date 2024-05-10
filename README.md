@@ -1,6 +1,6 @@
 # st0263-Proyecto-2
 
-##Instructivo Paso a Paso:
+## Instructivo Paso a Paso:
 
 ### Creación y configuración inicial de instancias.
 Primero, cree 3 máquinas virtuales en GCP. Llame a una de ellas microk8s-master, y a las otras dos microk8s-worker-1 y microk8s-worker-2, respectivamente. Para las tres máquinas utilice la imagen de Ubuntu, y cambie el almacenamiento a 20 gb. Habilite también las conexiones HTTP, HTTPS, y las verificaciones del balanceador.
@@ -10,7 +10,7 @@ Primero, cree 3 máquinas virtuales en GCP. Llame a una de ellas microk8s-master
   
 - Ejecute el comando:
   
-```sudo apt update```
+``` sudo apt update ```
   
 - Después, ejecute el comando:
   
