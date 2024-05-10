@@ -8,7 +8,7 @@ Primero, cree 3 máquinas virtuales en GCP. Llame a una de ellas microk8s-master
 ### Configuración inicial de instancia master.
 - Conéctese a la instancia de microk8s-master a través de SSH.
   
-Ejecute el comando:
+- Ejecute el comando:
 
 ```
 sudo apt update
@@ -76,7 +76,7 @@ Así, ya solo debera usar el prefijo ```kubectl```.
 ### Configuración inicial de instancia worker 1.
 - Conéctese a la instancia de microk8s-worker-1 a través de SSH.
   
-Ejecute el comando:
+- Ejecute el comando:
 
 ```
 sudo apt update
@@ -145,7 +145,7 @@ Así, ya solo debera usar el prefijo ```kubectl```.
 ### Configuración inicial de instancia worker 2.
 - Conéctese a la instancia de microk8s-worker-2 a través de SSH.
   
-Ejecute el comando:
+- Ejecute el comando:
 
 ```
 sudo apt update
