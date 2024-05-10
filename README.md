@@ -10,7 +10,7 @@ Primero, cree 3 máquinas virtuales en GCP. Llame a una de ellas microk8s-master
   
 - Ejecute el comando:
   
-``` sudo apt update ```
+```sudo apt update```
   
 - Después, ejecute el comando:
   
@@ -154,6 +154,7 @@ Así, ya solo debera usar el prefijo ```kubectl```.
 En la instancia master ejecute el comando:
 
 ```microk8s add-node```
+
 Le mostrará entonces un comando que debe ejecutar en la instancia ```microk8s-worker-1```. Ejecútelo allí.
 Una vez le diga que se conectó al cluster satisfactoriamente ejecute nuevamente el mismo comando en la instancia master. Nuevamente, ejecute el comando que se le muestre en la consola peroe sta vez en la instancia ```microk8s-worker-2```. 
 
