@@ -9,18 +9,22 @@ Primero, cree 3 máquinas virtuales en GCP. Llame a una de ellas microk8s-master
 - Conéctese a la instancia de microk8s-master a través de SSH.
   
 - Ejecute el comando:
+  
 ```sudo apt update```.
   
 - Después, ejecute el comando:
+  
  ```sudo snap install microk8s --classic```.
   
 - Para realizar una verificación, ejecute el comando:
+  
 ```microk8s status --wait-ready```.
 Saldrá entonces un mensaje como el siguiente:
 
 ![image](https://github.com/EsteTruji/st0263-Proyecto-2/assets/82886890/443f0b3f-ac09-4343-a47e-11652977718a)
 
 - Proceda a ejecutar individualmente los comandos que le solicitan ahí.
+  
 ```sudo usermod -a -G microk8s etrujilloc```
 ```mkdir .kube```
 ```sudo chown -R etrujilloc ~/.kube```
@@ -28,18 +32,22 @@ Saldrá entonces un mensaje como el siguiente:
 - Reinicie la conexión cerrando la consola y volviéndola a abrir.
   
 - Vuelva a ejecutar el comando:
+  
 ```microk8s status --wait-ready```.
 Le aparecerá ahora sí un mensaje que dice que microk8s está ejecutándose.
 
 - Ahora, ejecute el comando:
+  
 ```microk8s enable dashboard dns registry istio```
 Con este comando podrá instalar los plugins necesarios para microk8s.
 
 - Después, habilite el plugin necesario para utilizar NGINX nativo con el comando:
+  
 ```microk8s enable ingress```.
 
 A partir de acá será necesario usar comandos que tienen el prefijo ```microk8s kubectl```. Sin embargo, esto puede ser largo y tornarse ineficiente en términos de escritura. Por lo tanto, usaremos un alias para evitar tener que escribirlo completo. 
 Para ello, ejecute el comando:
+
 ```alias kubectl="microk8s kubectl"```
 Así, ya solo debera usar el prefijo ```kubectl```.
 
@@ -49,18 +57,22 @@ Así, ya solo debera usar el prefijo ```kubectl```.
 - Conéctese a la instancia de microk8s-master a través de SSH.
   
 - Ejecute el comando:
+  
 ```sudo apt update```.
   
 - Después, ejecute el comando:
+  
  ```sudo snap install microk8s --classic```.
   
 - Para realizar una verificación, ejecute el comando:
+  
 ```microk8s status --wait-ready```.
 Saldrá entonces un mensaje como el siguiente:
 
 ![image](https://github.com/EsteTruji/st0263-Proyecto-2/assets/82886890/443f0b3f-ac09-4343-a47e-11652977718a)
 
 - Proceda a ejecutar individualmente los comandos que le solicitan ahí.
+  
 ```sudo usermod -a -G microk8s etrujilloc```
 ```mkdir .kube```
 ```sudo chown -R etrujilloc ~/.kube```
@@ -68,14 +80,17 @@ Saldrá entonces un mensaje como el siguiente:
 - Reinicie la conexión cerrando la consola y volviéndola a abrir.
   
 - Vuelva a ejecutar el comando:
+  
 ```microk8s status --wait-ready```.
 Le aparecerá ahora sí un mensaje que dice que microk8s está ejecutándose.
 
 - Ahora, ejecute el comando:
+  
 ```microk8s enable dashboard dns registry istio```
 Con este comando podrá instalar los plugins necesarios para microk8s.
 
 - Después, habilite el plugin necesario para utilizar NGINX nativo con el comando:
+  
 ```microk8s enable ingress```.
 
 A partir de acá será necesario usar comandos que tienen el prefijo ```microk8s kubectl```. Sin embargo, esto puede ser largo y tornarse ineficiente en términos de escritura. Por lo tanto, usaremos un alias para evitar tener que escribirlo completo. 
@@ -90,18 +105,22 @@ Así, ya solo debera usar el prefijo ```kubectl```.
 - Conéctese a la instancia de microk8s-master a través de SSH.
   
 - Ejecute el comando:
+  
 ```sudo apt update```.
   
 - Después, ejecute el comando:
+  
  ```sudo snap install microk8s --classic```.
   
 - Para realizar una verificación, ejecute el comando:
+  
 ```microk8s status --wait-ready```.
 Saldrá entonces un mensaje como el siguiente:
 
 ![image](https://github.com/EsteTruji/st0263-Proyecto-2/assets/82886890/443f0b3f-ac09-4343-a47e-11652977718a)
 
 - Proceda a ejecutar individualmente los comandos que le solicitan ahí.
+  
 ```sudo usermod -a -G microk8s etrujilloc```
 ```mkdir .kube```
 ```sudo chown -R etrujilloc ~/.kube```
@@ -109,18 +128,22 @@ Saldrá entonces un mensaje como el siguiente:
 - Reinicie la conexión cerrando la consola y volviéndola a abrir.
   
 - Vuelva a ejecutar el comando:
+  
 ```microk8s status --wait-ready```.
 Le aparecerá ahora sí un mensaje que dice que microk8s está ejecutándose.
 
 - Ahora, ejecute el comando:
+  
 ```microk8s enable dashboard dns registry istio```
 Con este comando podrá instalar los plugins necesarios para microk8s.
 
 - Después, habilite el plugin necesario para utilizar NGINX nativo con el comando:
+  
 ```microk8s enable ingress```.
 
 A partir de acá será necesario usar comandos que tienen el prefijo ```microk8s kubectl```. Sin embargo, esto puede ser largo y tornarse ineficiente en términos de escritura. Por lo tanto, usaremos un alias para evitar tener que escribirlo completo. 
 Para ello, ejecute el comando:
+
 ```alias kubectl="microk8s kubectl"```
 Así, ya solo debera usar el prefijo ```kubectl```.
 
@@ -129,6 +152,7 @@ Así, ya solo debera usar el prefijo ```kubectl```.
 ### Creación del clúster.
 
 En la instancia master ejecute el comando:
+
 ```microk8s add-node```
 Le mostrará entonces un comando que debe ejecutar en la instancia ```microk8s-worker-1```. Ejecútelo allí.
 Una vez le diga que se conectó al cluster satisfactoriamente ejecute nuevamente el mismo comando en la instancia master. Nuevamente, ejecute el comando que se le muestre en la consola peroe sta vez en la instancia ```microk8s-worker-2```. 
