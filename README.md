@@ -397,3 +397,341 @@ spec:
 ```
 kubectl apply -f nfs-pvc.yaml
 ```
+
+#### Configuración Base de Datos y WordPress.
+
+Conectado a la instancia microk8s-master, realice lo siguiente:
+
+- Para la creación de un kustomization file, con el fin de almacenar un Secret con información de la base de datos, ejecute el siguiente comando cambiando el valor **YOUR_PASSWORD** por la contraseña que desee colocar para la base de datos:
+```
+cat <<EOF >./kustomization.yaml
+secretGenerator:
+- name: mysql-pass
+  literals:
+  - password=YOUR_PASSWORD
+EOF
+```
+
+- Cree un archivo llamado ```mysql-pv-pvc.yaml```, el cual corresponderá al PersistentVolume y al PersistentVolumeClaim para MySQL, con el siguiente comando:
+```
+nano mysql-pv-pvc.yaml
+```
+- Coloque dentro del archivo recién creado y abierto el siguiente contenido:
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: ""
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+  labels:
+    app: wordpress
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeName: mysql-pv-volume
+  resources:
+    requests:
+      storage: 5Gi
+```
+
+- Después, cree otro archivo llamado ```mysql-deployment.yaml```, el cual corresponderá al deployment y al service para MySQL y la base de datos deseada, con el siguiente comando:
+```
+nano mysql-deployment.yaml
+```
+- Coloque dentro del archivo recién creado y abierto el siguiente contenido:
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress-mysql
+  labels:
+    app: wordpress
+spec:
+  selector:
+    matchLabels:
+      app: wordpress
+      tier: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: wordpress
+        tier: mysql
+    spec:
+      containers:
+      - image: mysql:8.0
+        name: mysql
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-pass
+              key: password
+        - name: MYSQL_DATABASE
+          value: wordpress
+        - name: MYSQL_USER
+          value: wordpress
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-pass
+              key: password
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pv-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress-mysql
+  labels:
+    app: wordpress
+spec:
+  ports:
+  - port: 3306
+  selector:
+    app: wordpress
+    tier: mysql
+  clusterIP: None
+```
+
+- Después, cree otro archivo llamado ```wordpress-deployment.yaml```, el cual corresponderá al deployment, al service, y al PersistentVolumeClaim para WordPress, con el siguiente comando:
+```
+nano wordpress-deployment.yaml
+```
+- Coloque dentro del archivo recién creado y abierto el siguiente contenido:
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress
+  labels:
+    app: wordpress
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: wordpress
+    tier: frontend
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wp-pv-claim
+  labels:
+    app: wordpress
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: nfs-csi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress
+  labels:
+    app: wordpress
+spec:
+  selector:
+    matchLabels:
+      app: wordpress
+      tier: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: wordpress
+        tier: frontend
+    spec:
+      containers:
+      - image: wordpress
+        name: wordpress
+        env:
+        - name: WORDPRESS_DB_HOST
+          value: wordpress-mysql
+        - name: WORDPRESS_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-pass
+              key: password
+        - name: WORDPRESS_DB_USER
+          value: wordpress
+        ports:
+        - containerPort: 80
+          name: wordpress
+        volumeMounts:
+        - name: wordpress-persistent-storage
+          mountPath: /var/www/html
+      volumes:
+      - name: wordpress-persistent-storage
+        persistentVolumeClaim:
+          claimName: wp-pv-claim
+```
+
+- Después de crear los archivos anteriores, proceda a aplicar el manifiesto del archivo ```mysql-pv-pvc.yaml```, con el siguiente comando:
+```
+kubectl apply -f mysql-pv-pvc.yaml
+```
+- Ahora, ejecute el siguiente comando para añadir los deployments previamente creados al archivo kustomization:
+```
+cat <<EOF >>./kustomization.yaml
+resources:
+  - mysql-deployment.yaml
+  - wordpress-deployment.yaml
+EOF
+```
+- Proceda a aplicar dichos archivos con el comando a continuación:
+```
+kubectl apply -k ./
+```
+
+De esta forma, ya tiene WordPress y MySQL configurados y conectados correctamente. 
+
+#### Configuración Load Balancer.
+Continuando con la conexión a la instancia microk8s-master, realice las siguientes acciones:
+
+- Primero, con el fin de redirigir las requests al dominio correspondiente al proyecto, diríjase al panel de su proveedor de dominio (en este caso, GoDaddy), y verifique que los registros A y CNAME concuerden con la imagen que se muestra a continuación:
+
+![DNS-records](https://github.com/EsteTruji/st0263-Proyecto-2/assets/82886890/c66fc8ae-559e-44e3-83df-d397a8e651e5)
+
+
+**Nota:** deberá cambiar la IP que ahí aparece por la IP pública correspondiente a la instancia microk8s-master que creó.
+
+- Después de ello, se configurará el Ingress (Load Balancer), de tal forma que se pueda acceder con HTTPS, es decir, tenga los certificados correspondientes. Para ello, se habilitará el plugin de cert-manager con el comando a continuación:
+```
+microk8s enable cert-manager
+```
+
+- Ahora, proceda a crear un archivo llamado ```cluster-issuer.yaml``` para configurar una cuenta de correo con Let's Encrypt, con el comando a continuación:
+```
+nano cluster-issuer.yaml
+```
+- Coloque el siguiente contenido en el archivo recién creado y abierto:
+```
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+ name: lets-encrypt
+spec:
+ acme:
+   email: <EMAIL-ADDRESS>
+   server: https://acme-v02.api.letsencrypt.org/directory
+   privateKeySecretRef:
+     # Secret resource that will be used to store the account's private key.
+     name: lets-encrypt-priviate-key
+   # Add a single challenge solver, HTTP01 using nginx
+   solvers:
+   - http01:
+       ingress:
+         class: public
+```
+**Nota:** deberá cambiar el valor <EMAIL-ADDRESS> por el correo con el cual desea cofigurar Let's Ecrypt.
+
+- Proceda a aplicar dicho archivo con el comando:
+```
+kubectl apply -f cluster-issuer.yaml
+```
+
+- Ahora, pase a configurar el Ingress, para lo cual será necesario crear un archivo llamado ```nginx-ingress-2.yaml```, con el siguiente comando:
+```
+nano nginx-ingress-2.yaml
+```
+- Coloque dentro de ese archivo recién creado y abierto el siguiente contenido:
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+ name: wordpress-ingress
+ annotations:
+   cert-manager.io/cluster-issuer: lets-encrypt
+spec:
+ tls:
+ - hosts:
+   - <YOUR-DOMAIN>
+   secretName: microbot-ingress-tls
+ rules:
+ - host: <YOUR-DOMAIN>
+   http:
+     paths:
+     - backend:
+         service:
+           name: wordpress
+           port:
+             number: 80
+       path: /
+       pathType: Exact
+```
+**Nota:** deberá cambiar el valor <YOUR-DOMAIN> por su dominio correspondiente.
+- Proceda a aplicar ese archivo con el comando:
+```
+kubectl apply -f nginx-ingress-2.yaml
+```
+**Nota:** deberá esperar unos momentos para que se creen los certificados TLS correspondientes y se almacenen en las carpetas respectivas. 
+
+- Después de varios minutos, proceda a ejecutar el siguiente comando:
+```
+kubectl delete ingress wordpress-ingress
+```
+- Ahora, cree otro archivo llamado ```nginx-ingress.yaml```, con el siguiente comando:
+```
+nano nginx-ingress.yaml
+```
+- Coloque dentro de ese archivo recién creado y abierto el siguiente contenido:
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wordpress-ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /  
+        pathType: Prefix
+        backend:
+          service:
+            name: wordpress
+            port:
+              number: 80
+```
+- Proceda a aplicar ese archivo con el comando:
+```
+kubectl apply -f nginx-ingress.yaml
+```
+
+#### Verificación del funcionamiento de la aplicación.
+
+1. Proceda ahora a dirigirse desde su navegador web al dominio colocado en <YOUR-DOMAIN> previamente.
+2. Le deberá aparecer entonces la página de configuración de WordPress.
+3. Siga cada uno de los pasos que allí se le indiquen.
+4. Una vez configurada completamente, acceda en otra pestaña a su dominio y ¡deberá ver su página completamente lista!
+
+![Landing-page-HTTPS](https://github.com/EsteTruji/st0263-Proyecto-2/assets/82886890/3bcb6481-02f6-49f8-b8e0-469d40eec402)
+
