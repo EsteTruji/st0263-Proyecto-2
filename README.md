@@ -1,737 +1,409 @@
-# st0263-Proyecto-2
 
-## Instructivo Paso a Paso:
+# Info de la materia: ST0263 - Tópicos Especiales en Telemática
 
-### Creación y configuración inicial de instancias.
-Primero, cree 4 máquinas virtuales en GCP. Llame a una de ellas microk8s-master, y a otras dos microk8s-worker-1 y microk8s-worker-2, respectivamente, y finalmente a otra instancia llamada microk8s-nfs. Para las cuatro máquinas utilice la imagen de Ubuntu, y cambie el almacenamiento a 20 gb. Habilite también las conexiones HTTP, HTTPS, y las verificaciones del balanceador.
+### Estudiantes:
+  - Esteban Trujillo Carmona, etrujilloc@eafit.edu.co
+  - Viviana Hoyos Sierra, vhoyoss@eafit.edu.co
+  - Damian Duque López, daduquel@eafit.edu.co
+  - Valentina Morales Villada, vmoralesv@eafit.edu.co
 
-### Configuración inicial de instancia master.
-- Conéctese a la instancia de microk8s-master a través de SSH.
-  
-- Ejecute el comando:
+### Profesor: Edwin Montoya, emontoya@eafit.edu.co
 
-```
-sudo apt update
-```
-  
-- Después, ejecute el comando:
-  
-```
-sudo snap install microk8s --classic
-```
-  
-- Para realizar una verificación, ejecute el comando:
-  
-```
-microk8s status --wait-ready
-```
-Saldrá entonces un mensaje como el siguiente:
+# Reto 4 
 
-![image](https://github.com/EsteTruji/st0263-Proyecto-2/assets/82886890/443f0b3f-ac09-4343-a47e-11652977718a)
+# Video sustentación
 
-- Proceda a ejecutar individualmente los comandos que le solicitan ahí.
-  
-```
-sudo usermod -a -G microk8s etrujilloc
-```
-```
-mkdir .kube
-```
-```
-sudo chown -R etrujilloc ~/.kube
-```
+[![Video](https://img.youtube.com/vi/6Vu73vi8l-g/0.jpg)](https://www.youtube.com/watch?v=6Vu73vi8l-g)
 
-- Reinicie la conexión cerrando la consola y volviéndola a abrir.
-  
-- Vuelva a ejecutar el comando:
-  
-```
-microk8s status --wait-ready
-```
-Le aparecerá ahora sí un mensaje que dice que microk8s está ejecutándose.
+## 1. Breve descripción de la actividad
+Se desplegó un CMS wordpress (app monolítica) en una arquitectura distribuida haciendo uso de tecnologías como Kubernets, proveedores de dominio como GoDaddy y servicios de Google Cloud Platform.
 
-- Ahora, ejecute el comando:
-  
-```
-microk8s enable dashboard dns registry istio
-```
-Con este comando podrá instalar los plugins necesarios para microk8s.
-
-- Después, habilite el plugin necesario para utilizar NGINX nativo con el comando:
-  
-```
-microk8s enable ingress
-```
-
-A partir de acá será necesario usar comandos que tienen el prefijo ```microk8s kubectl```. Sin embargo, esto puede ser largo y tornarse ineficiente en términos de escritura. Por lo tanto, usaremos un alias para evitar tener que escribirlo completo. 
-Para ello, ejecute el comando:
-
-```
-alias kubectl="microk8s kubectl"
-```
-Así, ya solo debera usar el prefijo ```kubectl```.
-
-- Finalice la conexión, e inicie una nueva a través de SSH con la instancia ```microk8s-worker-1```.
-
-### Configuración inicial de instancia worker 1.
-- Conéctese a la instancia de microk8s-worker-1 a través de SSH.
-  
-- Ejecute el comando:
-
-```
-sudo apt update
-```
-  
-- Después, ejecute el comando:
-  
-```
-sudo snap install microk8s --classic
-```
-  
-- Para realizar una verificación, ejecute el comando:
-  
-```
-microk8s status --wait-ready
-```
-Saldrá entonces un mensaje como el siguiente:
-
-![image](https://github.com/EsteTruji/st0263-Proyecto-2/assets/82886890/443f0b3f-ac09-4343-a47e-11652977718a)
-
-- Proceda a ejecutar individualmente los comandos que le solicitan ahí.
-  
-```
-sudo usermod -a -G microk8s etrujilloc
-```
-```
-mkdir .kube
-```
-```
-sudo chown -R etrujilloc ~/.kube
-```
-
-- Reinicie la conexión cerrando la consola y volviéndola a abrir.
-  
-- Vuelva a ejecutar el comando:
-  
-```
-microk8s status --wait-ready
-```
-Le aparecerá ahora sí un mensaje que dice que microk8s está ejecutándose.
-
-- Ahora, ejecute el comando:
-  
-```
-microk8s enable dashboard dns registry istio
-```
-Con este comando podrá instalar los plugins necesarios para microk8s.
-
-- Después, habilite el plugin necesario para utilizar NGINX nativo con el comando:
-  
-```
-microk8s enable ingress
-```
-
-A partir de acá será necesario usar comandos que tienen el prefijo ```microk8s kubectl```. Sin embargo, esto puede ser largo y tornarse ineficiente en términos de escritura. Por lo tanto, usaremos un alias para evitar tener que escribirlo completo. 
-Para ello, ejecute el comando:
-
-```
-alias kubectl="microk8s kubectl"
-```
-Así, ya solo debera usar el prefijo ```kubectl```.
-
-- Finalice la conexión, e inicie una nueva a través de SSH con la instancia ```microk8s-worker-2```.
+En este reto utilizamos los servicios de balanceador de cargas, Filestore y Cloud SQL nativos de google para satisfacer las necesidades de nuestra aplicación. utilizando un servicio administrado de NFS en la nube a partir de la API de Filestore para disponer del sistema de archivos. se desplegaron (PENDIENTE POR CONFIRMAR Y ANOTAR) maquinas virtuales en google cloud.
 
 
-### Configuración inicial de instancia worker 2.
-- Conéctese a la instancia de microk8s-worker-2 a través de SSH.
-  
-- Ejecute el comando:
+
+### 1.1. Que aspectos cumplió o desarrolló de la actividad propuesta por el profesor (requerimientos funcionales y no funcionales)
+
+**NO FUNCIONALES**
+
+-	**DISPONIBILIDAD:**
+    -  Despliegue de  aplicación wordpress con varios pods utilizando Kubernetes.
+    -  Implementar un balanceador de cargas basado en los servicios nativos de Google que reciba el tráfico web http de Internet con múltiples instancias de procesamiento.
+   
+
+**FUNCIONALES**
+-	Almacenamiento en la capa de datos haciendo uso del servicio de bases de datos mysql ofrecido por Google.
+- Almacenamiento de archivos implementado haciendo uso del servicio de NFS ofrecido por Google.
+- Conexion de servicios de wordpress con el servicio NFS.
+
+
+
+### 1.2. Que aspectos NO cumplió o desarrolló de la actividad propuesta por el profesor (requerimientos funcionales y no funcionales)
+
+No logro obtener el certificado SSL para implementar https dentro de la aplicación.
+
+## 2. Información general de diseño de alto nivel, arquitectura, patrones, mejores prácticas utilizadas.
+
+Se implementó para este proyecto la siguiente arquitectura basada en la propuesta del profesor.
+
+![Reto4](https://github.com/EsteTruji/st0263-reto-4/assets/83479274/c6d99571-ebb8-43b5-baf1-24e7ce01638d)
+
+
+## 3. Descripción del ambiente de ejecución lenguaje de programación, librerias, paquetes, etc, con sus numeros de versiones.
+
+
+**IPs utilizadas en el reto 4:**
+
+**IPs Privadas:**
+
+- **Servicio Kubernetes:** 10.103.192.1
+- **Servicio Load balancer:** 10.103.193.248
+
+**IPs Públicas:**
+- **Servicio Load balancer:** 34.171.91.170
+- **DataBase:** 35.192.174.33
+
+
+Cabe resaltar que para el desarrollo y cumplimiento de este reto no fue necesario instalar ningun otro paquete o libreria adicional ya que todos los recursos utilizados son nativos de GCP.
+
+
+## 4. Guía paso a paso de instalación y configuración
+
+Para este reto, se realizó el despliegue y configuración de cada uno de los elementos requeridos. Esta es una pequeña guía de todo el proceso realizado.
+
+### Creación del clúster de Kubernetes.
+
+Para esto se utilizó el siguiente tutorial (https://cloud.google.com/kubernetes-engine/docs/tutorials/persistent-disk).
+
+Primero, es necesario activar Cloud Shell para poder ejecutar los comandos necesarios.
+
+Después, es necesario habilitar las APIs de GKE y Clud SQL Admin:
 
 ```
-sudo apt update
-```
-  
-- Después, ejecute el comando:
-  
-```
-sudo snap install microk8s --classic
-```
-  
-- Para realizar una verificación, ejecute el comando:
-  
-```
-microk8s status --wait-ready
-```
-Saldrá entonces un mensaje como el siguiente:
-
-![image](https://github.com/EsteTruji/st0263-Proyecto-2/assets/82886890/443f0b3f-ac09-4343-a47e-11652977718a)
-
-- Proceda a ejecutar individualmente los comandos que le solicitan ahí.
-  
-```
-sudo usermod -a -G microk8s etrujilloc
-```
-```
-mkdir .kube
-```
-```
-sudo chown -R etrujilloc ~/.kube
+gcloud services enable container.googleapis.com sqladmin.googleapis.com
 ```
 
-- Reinicie la conexión cerrando la consola y volviéndola a abrir.
-  
-- Vuelva a ejecutar el comando:
-  
-```
-microk8s status --wait-ready
-```
-Le aparecerá ahora sí un mensaje que dice que microk8s está ejecutándose.
-
-- Ahora, ejecute el comando:
-  
-```
-microk8s enable dashboard dns registry istio
-```
-Con este comando podrá instalar los plugins necesarios para microk8s.
-
-- Después, habilite el plugin necesario para utilizar NGINX nativo con el comando:
-  
-```
-microk8s enable ingress
-```
-
-A partir de acá será necesario usar comandos que tienen el prefijo ```microk8s kubectl```. Sin embargo, esto puede ser largo y tornarse ineficiente en términos de escritura. Por lo tanto, usaremos un alias para evitar tener que escribirlo completo. 
-Para ello, ejecute el comando:
+En Cloud Shell, configura la región predeterminada para la CLI de Google Cloud:
 
 ```
-alias kubectl="microk8s kubectl"
+gcloud config set compute/region us-central1-a
 ```
-Así, ya solo debera usar el prefijo ```kubectl```.
 
-- Finalice la conexión, e inicie una nueva a través de SSH con la instancia ```microk8s-master```, nuevamente.
+Establezca la PROJECT_IDvariable de entorno en el ID de su proyecto de Google Cloud:
 
+```
+export PROJECT_ID=reto-4-422404
+```
+
+Descargue los archivos de manifiesto de la aplicación desde el repositorio de GitHub:
+
+```
+git clone https://github.com/EsteTruji/kubernetes-manifests
+```
+
+
+Cambie al directorio con el kubernetes-manifests:
+
+```
+cd kubernetes-manifests
+```
+
+Establezca la ```WORKING_DIR``` variable de entorno:
+
+```
+WORKING_DIR=$(pwd)
+```
+
+### Creación del clúster de GKE.
+
+Se debe un clúster de GKE para alojar el contenedor de tu aplicación de WordPress.
+
+En Cloud Shell, cree un clúster de GKE llamado persistent-disk-tutorial (se puede colocar el nombre que se requiera):
+
+```
+gcloud container clusters create CLUSTER_NAME \
+    --enable-autoscaling \
+    --num-nodes NUM_NODES \
+    --min-nodes MIN_NODES \
+    --max-nodes MAX_NODES \
+    --region=COMPUTE_REGION
+```
+
+Una vez creado, se debe conectar a su nuevo clúster:
+
+```
+gcloud container clusters get-credentials $CLUSTER_NAME --region us-central1-a
+```
+
+De esa forma, ya estará creado el clúster.
 
 ### Configuración NFS.
 
-Conéctese a la instancia microk8s-nfs a través de SSH.
-  
-- Ejecute el comando:
+Para la configuración del NFS, se siguió paso a paso el siguiente tutorial (https://cloud.google.com/filestore/docs/csi-driver?hl=es-419#deployment).
+
+Antes de comenzar, es necesario realizar las siguientes tareas:
+
+- Habilita la API de Cloud Filestore y la API de Google Kubernetes Engine.
+
+Si se desea usar Google Cloud CLI para esta tarea, instale y, luego, initialize gcloud CLI. Si ya instaló gcloud CLI, ejecute gcloud components update para obtener la versión más reciente.
+
+#### Habilita el controlador de CSI de Filestore en un clúster existente
+
+Para habilitar el controlador de CSI de Filestore en clústeres existentes, usa Google Cloud CLI o la consola de Google Cloud.
+
+- En la consola ejecute el siguiente comando:
 
 ```
-sudo apt update
+  gcloud container clusters update CLUSTER_NAME \
+   --update-addons=GcpFilestoreCsiDriver=ENABLED
 ```
-  
-- Después, ejecute el comando:
-  
-```
-sudo snap install microk8s --classic
-```
-  
-- Para realizar una verificación, ejecute el comando:
-  
-```
-microk8s status --wait-ready
-```
-Saldrá entonces un mensaje como el siguiente:
+Donde se debe reemplazar **CLUSTER_NAME** por el nombre del clúster.
 
-![image](https://github.com/EsteTruji/st0263-Proyecto-2/assets/82886890/443f0b3f-ac09-4343-a47e-11652977718a)
+#### Crea un PersistentVolume y una PersistentVolumeClaim para acceder a la instancia.
 
-- Proceda a ejecutar individualmente los comandos que le solicitan ahí.
-  
-```
-sudo usermod -a -G microk8s etrujilloc
-```
-```
-mkdir .kube
-```
-```
-sudo chown -R etrujilloc ~/.kube
-```
+1. Crea un archivo de manifiesto como el que se muestra en el siguiente ejemplo y asígnale el nombre ```nfs-pv-pvc.yaml```:
 
-- Reinicie la conexión cerrando la consola y volviéndola a abrir.
-  
-- Vuelva a ejecutar el comando:
-  
-```
-microk8s status --wait-ready
-```
-Le aparecerá ahora sí un mensaje que dice que microk8s está ejecutándose.
-
-- Ahora, ejecute el comando:
-  
-```
-microk8s enable dashboard dns registry istio
-```
-Con este comando podrá instalar los plugins necesarios para microk8s.
-
-- Después, habilite el plugin necesario para utilizar NGINX nativo con el comando:
-  
-```
-microk8s enable ingress
-```
-
-A partir de acá será necesario usar comandos que tienen el prefijo ```microk8s kubectl```. Sin embargo, esto puede ser largo y tornarse ineficiente en términos de escritura. Por lo tanto, usaremos un alias para evitar tener que escribirlo completo. 
-Para ello, ejecute el comando:
-
-```
-alias kubectl="microk8s kubectl"
-```
-Así, ya solo debera usar el prefijo ```kubectl```.
-
-- Proceda después a instalar el servidor NFS con el siguiente comando:
-
-```
-sudo apt update
-sudo apt install nfs-kernel-server
-```
-- Ahora, cree el directorio que se compartirá:
-```
-sudo mkdir -p /mnt/wordpress
-```
-- Cambie el propietario del directorio:
-```
-sudo chown nobody:nogroup /mnt/wordpress
-```
-- Después, cambie los permisos del directorio:
-```
-sudo chmod 777 /mnt/wordpress
-```
-- Edite el archivo /etc/exports:
-```
-sudo nano /etc/exports
-```
-- Deberá añadir entonces la siguiente línea en el archivo recién creado y abierto:
-```
-/mnt/wordpress *(rw,sync,no_subtree_check)
-```
-- Guarde los cambios hechos en el archivo, y después reinicie el servicio de NFS:
-```
-sudo systemctl restart nfs-kernel-server
-```
-
-### Creación del clúster.
-
-#### Configuración workers.
-En la instancia master ejecute el comando:
-
-```
-microk8s add-node
-```
-
-Le mostrará entonces un comando que debe ejecutar en la instancia ```microk8s-worker-1```. Ejecútelo allí.
-Una vez le diga que se conectó al cluster satisfactoriamente ejecute nuevamente el mismo comando en la instancia master. Nuevamente, ejecute el comando que se le muestre en la consola pero esta vez en la instancia ```microk8s-worker-2```. 
-
-Cuando ejecute el comando 
-```
-kubectl get nodes
-``` 
-en la instancia master, después de haber hecho lo anterior, podrá ver los dos nodos workers recién añadidos al clúster.
-
-![image](https://github.com/EsteTruji/st0263-Proyecto-2/assets/82886890/ca8be860-01a9-47fa-bdee-2a7c23c38577)
-
-#### Configuración NFS.
-
-Conectado a la instancia master por SSH, realice las siguientes acciones:
-
-- Primero, habilite Helm3 y añada el repositorio de CSI Driver para NFS:
-```
-microk8s enable helm3
-microk8s helm3 repo add csi-driver-nfs https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
-microk8s helm3 repo update
-```
-
-- Después, instale el driver para NFS:
-  
-```
-microk8s helm3 install csi-driver-nfs csi-driver-nfs/csi-driver-nfs \
- --namespace kube-system \
- --set kubeletDir=/var/snap/microk8s/common/var/lib/kubelet
-```
-
-- Cree el StorageClass con el siguiente comando:
-```
-nano nfs-csi.yaml
-```
-- En ese archivo creado y abierto pegue lo siguiente:
-
-```
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: nfs-csi
-provisioner: nfs.csi.k8s.io
-parameters:
-  server: 10.128.0.7
-  share: /mnt/wordpress
-reclaimPolicy: Delete
-volumeBindingMode: Immediate
-mountOptions:
-  - hard
-  - nfsvers=4.1
-```
-
-- Ahora, aplique el archivo nfs-csi.yaml:
-```
-kubectl apply -f nfs-csi.yaml
-```
-- Después de ello, cree el PersistentVolumeClaim con el siguiente comando:
-```
-nano nfs-pvc.yaml
-```
-- Después, en ese archivo recién creado y abierto coloque el siguiente contenido:
-```
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: nfs-pvc
-spec:
-  storageClassName: nfs-csi
-  accessModes: [ReadWriteOnce]
-  resources:
-    requests:
-      storage: 5Gi
-```
-    
-- Finalmente, aplique el archivo nfs-pvc.yaml:
-```
-kubectl apply -f nfs-pvc.yaml
-```
-
-#### Configuración Base de Datos y WordPress.
-
-Conectado a la instancia microk8s-master, realice lo siguiente:
-
-- Para la creación de un kustomization file, con el fin de almacenar un Secret con información de la base de datos, ejecute el siguiente comando cambiando el valor **YOUR_PASSWORD** por la contraseña que desee colocar para la base de datos:
-```
-cat <<EOF >./kustomization.yaml
-secretGenerator:
-- name: mysql-pass
-  literals:
-  - password=YOUR_PASSWORD
-EOF
-```
-
-- Cree un archivo llamado ```mysql-pv-pvc.yaml```, el cual corresponderá al PersistentVolume y al PersistentVolumeClaim para MySQL, con el siguiente comando:
-```
-nano mysql-pv-pvc.yaml
-```
-- Coloque dentro del archivo recién creado y abierto el siguiente contenido:
 ```
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mysql-pv-volume
-  labels:
-    type: local
+  name: nfs-pv
 spec:
   storageClassName: ""
   capacity:
-    storage: 5Gi
+    storage: 1Ti
   accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/mnt/data"
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+  csi:
+    driver: filestore.csi.storage.gke.io
+    volumeHandle: "modeInstance/us-central1-a  /nfs-server/nfs_share1"
+    volumeAttributes:
+      ip: 10.34.43.66
+      volume: nfs_share1
 ---
-apiVersion: v1
 kind: PersistentVolumeClaim
+apiVersion: v1
 metadata:
-  name: mysql-pv-claim
-  labels:
-    app: wordpress
+  name: podpvc
 spec:
   accessModes:
-    - ReadWriteOnce
-  volumeName: mysql-pv-volume
+    - ReadWriteMany
+  storageClassName: ""
+  volumeName: nfs-pv
   resources:
     requests:
-      storage: 5Gi
+      storage: 1Ti
 ```
 
-- Después, cree otro archivo llamado ```mysql-deployment.yaml```, el cual corresponderá al deployment y al service para MySQL y la base de datos deseada, con el siguiente comando:
+- Posteriormente, ejecute el siguiente comando para crear los recursos de ```PersistentVolume``` y ```PersistentVolumeClaim```:
+
 ```
-nano mysql-deployment.yaml
-```
-- Coloque dentro del archivo recién creado y abierto el siguiente contenido:
-```
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: wordpress-mysql
-  labels:
-    app: wordpress
-spec:
-  selector:
-    matchLabels:
-      app: wordpress
-      tier: mysql
-  strategy:
-    type: Recreate
-  template:
-    metadata:
-      labels:
-        app: wordpress
-        tier: mysql
-    spec:
-      containers:
-      - image: mysql:8.0
-        name: mysql
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mysql-pass
-              key: password
-        - name: MYSQL_DATABASE
-          value: wordpress
-        - name: MYSQL_USER
-          value: wordpress
-        - name: MYSQL_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mysql-pass
-              key: password
-        ports:
-        - containerPort: 3306
-          name: mysql
-        volumeMounts:
-        - name: mysql-persistent-storage
-          mountPath: /var/lib/mysql
-      volumes:
-      - name: mysql-persistent-storage
-        persistentVolumeClaim:
-          claimName: mysql-pv-claim
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: wordpress-mysql
-  labels:
-    app: wordpress
-spec:
-  ports:
-  - port: 3306
-  selector:
-    app: wordpress
-    tier: mysql
-  clusterIP: None
+kubectl apply -f nfs-pv-pvc.yaml
 ```
 
-- Después, cree otro archivo llamado ```wordpress-deployment.yaml```, el cual corresponderá al deployment, al service, y al PersistentVolumeClaim para WordPress, con el siguiente comando:
-```
-nano wordpress-deployment.yaml
-```
-- Coloque dentro del archivo recién creado y abierto el siguiente contenido:
-```
-apiVersion: v1
-kind: Service
-metadata:
-  name: wordpress
-  labels:
-    app: wordpress
-spec:
-  ports:
-    - port: 80
-  selector:
-    app: wordpress
-    tier: frontend
-  type: LoadBalancer
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: wp-pv-claim
-  labels:
-    app: wordpress
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
-  storageClassName: nfs-csi
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: wordpress
-  labels:
-    app: wordpress
-spec:
-  selector:
-    matchLabels:
-      app: wordpress
-      tier: frontend
-  strategy:
-    type: Recreate
-  template:
-    metadata:
-      labels:
-        app: wordpress
-        tier: frontend
-    spec:
-      containers:
-      - image: wordpress
-        name: wordpress
-        env:
-        - name: WORDPRESS_DB_HOST
-          value: wordpress-mysql
-        - name: WORDPRESS_DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mysql-pass
-              key: password
-        - name: WORDPRESS_DB_USER
-          value: wordpress
-        ports:
-        - containerPort: 80
-          name: wordpress
-        volumeMounts:
-        - name: wordpress-persistent-storage
-          mountPath: /var/www/html
-      volumes:
-      - name: wordpress-persistent-storage
-        persistentVolumeClaim:
-          claimName: wp-pv-claim
-```
-
-- Después de crear los archivos anteriores, proceda a aplicar el manifiesto del archivo ```mysql-pv-pvc.yaml```, con el siguiente comando:
-```
-kubectl apply -f mysql-pv-pvc.yaml
-```
-- Ahora, ejecute el siguiente comando para añadir los deployments previamente creados al archivo kustomization:
-```
-cat <<EOF >>./kustomization.yaml
-resources:
-  - mysql-deployment.yaml
-  - wordpress-deployment.yaml
-EOF
-```
-- Proceda a aplicar dichos archivos con el comando a continuación:
-```
-kubectl apply -k ./
-```
-
-De esta forma, ya tiene WordPress y MySQL configurados y conectados correctamente. 
-
-#### Configuración Load Balancer.
-Continuando con la conexión a la instancia microk8s-master, realice las siguientes acciones:
-
-- Primero, con el fin de redirigir las requests al dominio correspondiente al proyecto, diríjase al panel de su proveedor de dominio (en este caso, GoDaddy), y verifique que los registros A y CNAME concuerden con la imagen que se muestra a continuación:
-
-![DNS-records](https://github.com/EsteTruji/st0263-Proyecto-2/assets/82886890/c66fc8ae-559e-44e3-83df-d397a8e651e5)
+De esta forma, ya se tiene creada y configurada la instancia de NFS usando el servicio de FileStore de GCP.
+Es posible visualizarlo al ingresar al clúster correspondiente, y dirigirse a la sección **Almacenamiento**, en la parte de abajo.
 
 
-**Nota:** deberá cambiar la IP que ahí aparece por la IP pública correspondiente a la instancia microk8s-master que creó.
 
-- Después de ello, se configurará el Ingress (Load Balancer), de tal forma que se pueda acceder con HTTPS, es decir, tenga los certificados correspondientes. Para ello, se habilitará el plugin de cert-manager con el comando a continuación:
-```
-microk8s enable cert-manager
-```
 
-- Ahora, proceda a crear un archivo llamado ```cluster-issuer.yaml``` para configurar una cuenta de correo con Let's Encrypt, con el comando a continuación:
-```
-nano cluster-issuer.yaml
-```
-- Coloque el siguiente contenido en el archivo recién creado y abierto:
-```
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
- name: lets-encrypt
-spec:
- acme:
-   email: <EMAIL-ADDRESS>
-   server: https://acme-v02.api.letsencrypt.org/directory
-   privateKeySecretRef:
-     # Secret resource that will be used to store the account's private key.
-     name: lets-encrypt-priviate-key
-   # Add a single challenge solver, HTTP01 using nginx
-   solvers:
-   - http01:
-       ingress:
-         class: public
-```
-**Nota:** deberá cambiar el valor <EMAIL-ADDRESS> por el correo con el cual desea cofigurar Let's Ecrypt.
 
-- Proceda a aplicar dicho archivo con el comando:
+### Configuración Base de Datos.
+
+En Cloud Shell, cree una instancia denominada ```mysql-wordpress-instance```:
+
 ```
-kubectl apply -f cluster-issuer.yaml
+INSTANCE_NAME=mysql-wordpress-instance
+gcloud sql instances create $INSTANCE_NAME
 ```
 
-- Ahora, pase a configurar el Ingress, para lo cual será necesario crear un archivo llamado ```nginx-ingress-2.yaml```, con el siguiente comando:
-```
-nano nginx-ingress-2.yaml
-```
-- Coloque dentro de ese archivo recién creado y abierto el siguiente contenido:
-```
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
- name: wordpress-ingress
- annotations:
-   cert-manager.io/cluster-issuer: lets-encrypt
-spec:
- tls:
- - hosts:
-   - <YOUR-DOMAIN>
-   secretName: microbot-ingress-tls
- rules:
- - host: <YOUR-DOMAIN>
-   http:
-     paths:
-     - backend:
-         service:
-           name: wordpress
-           port:
-             number: 80
-       path: /
-       pathType: Exact
-```
-**Nota:** deberá cambiar el valor <YOUR-DOMAIN> por su dominio correspondiente.
-- Proceda a aplicar ese archivo con el comando:
-```
-kubectl apply -f nginx-ingress-2.yaml
-```
-**Nota:** deberá esperar unos momentos para que se creen los certificados TLS correspondientes y se almacenen en las carpetas respectivas. 
+Agregue el nombre de la conexión de la instancia como una variable de entorno:
 
-- Después de varios minutos, proceda a ejecutar el siguiente comando:
 ```
-kubectl delete ingress wordpress-ingress
-```
-- Ahora, cree otro archivo llamado ```nginx-ingress.yaml```, con el siguiente comando:
-```
-nano nginx-ingress.yaml
-```
-- Coloque dentro de ese archivo recién creado y abierto el siguiente contenido:
-```
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: wordpress-ingress
-spec:
-  rules:
-  - http:
-      paths:
-      - path: /  
-        pathType: Prefix
-        backend:
-          service:
-            name: wordpress
-            port:
-              number: 80
-```
-- Proceda a aplicar ese archivo con el comando:
-```
-kubectl apply -f nginx-ingress.yaml
+export INSTANCE_CONNECTION_NAME=$(gcloud sql instances describe $INSTANCE_NAME \
+    --format='value(connectionName)')
 ```
 
-#### Verificación del funcionamiento de la aplicación.
+Cree una base de datos para WordPress para almacenar sus datos:
 
-1. Proceda ahora a dirigirse desde su navegador web al dominio colocado en <YOUR-DOMAIN> previamente.
-2. Le deberá aparecer entonces la página de configuración de WordPress.
-3. Siga cada uno de los pasos que allí se le indiquen.
-4. Una vez configurada completamente, acceda en otra pestaña a su dominio y ¡deberá ver su página completamente lista!
+```
+gcloud sql databases create wordpress --instance $INSTANCE_NAME
+```
 
-![Landing-page-HTTPS](https://github.com/EsteTruji/st0263-Proyecto-2/assets/82886890/3bcb6481-02f6-49f8-b8e0-469d40eec402)
+Cree un usuario de base de datos llamado ```wordpress``` y una contraseña para que WordPress se autentique en la instancia:
+
+```
+CLOUD_SQL_PASSWORD=$(openssl rand -base64 18)
+gcloud sql users create wordpress --host=% --instance $INSTANCE_NAME \
+    --password $CLOUD_SQL_PASSWORD
+```
+
+Así, quedará lista la instancia de la base de datos.
+
+
+### Configuración WordPress.
+
+#### Configuración inicial.
+
+Antes de poder implementar WordPress, se debe crear una cuenta de servicio. Proceda a crear un secreto de Kubernetes para guardar las credenciales de la cuenta de servicio y otro secreto para guardar las credenciales de la base de datos.
+
+Para permitir que su aplicación de WordPress acceda a la instancia de MySQL a través de un proxy de Cloud SQL, cree una cuenta de servicio:
+
+```
+SA_NAME=cloudsql-proxy
+gcloud iam service-accounts create $SA_NAME --display-name $SA_NAME
+```
+
+Agregue la dirección de correo electrónico de la cuenta de servicio como variable de entorno:
+
+```
+SA_EMAIL=$(gcloud iam service-accounts list \
+    --filter=displayName:$SA_NAME \
+    --format='value(email)')
+```
+
+Agregue el ```cloudsql.clientrol``` a su cuenta de servicio:
+
+```
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+    --role roles/cloudsql.client \
+    --member serviceAccount:$SA_EMAIL
+```
+
+Cree una clave para la cuenta de servicio:
+
+```
+gcloud iam service-accounts keys create $WORKING_DIR/key.json \
+    --iam-account $SA_EMAIL
+```
+
+Cree un secreto de Kubernetes para las credenciales de MySQL:
+
+```
+kubectl create secret generic cloudsql-db-credentials \
+    --from-literal username=wordpress \
+    --from-literal password=$CLOUD_SQL_PASSWORD
+```
+
+Cree un secreto de Kubernetes para las credenciales de la cuenta de servicio:
+
+```
+kubectl create secret generic cloudsql-instance-credentials \
+    --from-file $WORKING_DIR/key.json
+```
+
+#### Implementación.
+
+El siguiente paso es implementar su contenedor de WordPress en el clúster de GKE.
+
+El ```wordpress_cloudsql.yaml``` archivo de manifiesto describe una implementación que crea un único Pod que ejecuta un contenedor con una instancia de WordPress. Este contenedor lee la ```WORDPRESS_DB_PASSWORD``` variable de entorno que contiene el ```cloudsql-db-credentials``` secreto que creó.
+
+Este archivo de manifiesto también configura el contenedor de WordPress para comunicarse con MySQL a través del proxy de Cloud SQL que se ejecuta en el contenedor sidecar . El valor de la dirección del host se establece en la ```WORDPRESS_DB_HOST``` variable de entorno.
+
+Prepare el archivo reemplazando la ```INSTANCE_CONNECTION_NAME``` variable de entorno:
+
+```
+cat $WORKING_DIR/wordpress_cloudsql.yaml.template | envsubst > \
+    $WORKING_DIR/wordpress_cloudsql.yaml
+```
+
+Implemente el ```wordpress_cloudsql.yaml``` archivo de manifiesto:
+
+```
+kubectl create -f $WORKING_DIR/wordpress_cloudsql.yaml
+```
+
+Mire la implementación para ver el cambio de estado a ```running```:
+
+```
+kubectl get pod -l app=wordpress --watch
+```
+
+Cuando la salida muestra un estado de ```Running```, puede pasar al siguiente paso.
+
+
+#### Exposición del servicio.
+
+Crear un servicio de ```type:LoadBalancer```:
+
+```
+kubectl create -f $WORKING_DIR/wordpress-service.yaml
+```
+
+Observe la implementación y espere a que el servicio tenga asignada una dirección IP externa:
+
+```
+kubectl get svc -l app=wordpress --watch
+```
+
+Cuando el resultado muestre una dirección IP externa, puede continuar con el siguiente paso. 
+
+Tome nota del ```EXTERNAL_IP``` campo de dirección para utilizarlo más adelante.
+
+
+#### Configuración del blog/página.
+
+En su navegador, vaya a la siguiente URL, reemplazando ```external-ip-address``` con la ```EXTERNAL_IP``` del servicio que expone tu instancia de WordPress:
+
+```
+http://external-ip-address
+```
+
+Siga después los pasos a continuación:
+
+- En la página de instalación de WordPress , seleccione un idioma y luego haga clic en Continuar .
+
+- Complete la página Información necesaria y luego haga clic en Instalar WordPress .
+
+- Haga clic en Iniciar sesión.
+
+- Ingrese el nombre de usuario y contraseña que creó anteriormente.
+
+Una vez todo está configurado, es posible ejecutar el siguiente comando para poder visualizar todos los pods, nodos, servicio y deployments creados en el cluster de Kubernetes:
+
+```
+kubectl get all
+```
+
+Mostrará algo así entonces:
+
+![image](https://github.com/EsteTruji/st0263-reto-4/assets/82886890/1e55fd24-3167-46c0-b172-77a06480cc2f)
+
+
+#### Configuración dominio.
+
+Para esto, es necesario dirigirse al panel de administración del proveedor de DNS, para nuestro caso es GoDaddy. Allí nos dirigimos a la sección de registros DNS.
+
+Ahora procedemos a agregar el dominio (con el valor de la IP externa previamente obtenida) el subdominio en el DNS de igual forma y finalmente el registro ```CNAME```. Dentro de la configuración de registros del proveedor, se vería de la siguiente manera: 
+
+
+```
+A        @        IP expuesta del balanceador
+A        reto4    IP expuesta del balanceador
+CNAME    www      reto4.toysnt.shop
+```
+
+- Ahora, al acceder al enlace **http://reto4.toysnt.shop** podrá visualizar la página web desplegada y funcionando sin problema (tenga presente que para el momento de la revisión puede que las instancias que alojan todos los recursos y procesos previamente enunciados no estén en ejecución, y por lo tanto no esté disponible la página web).
+
+![image](https://github.com/EsteTruji/st0263-reto-4/assets/82886890/24841215-8aa4-46a6-825e-6721c4a7ae77)
+
+
+## Referencias
+
+[Install MicroK8s](https://microk8s.io/#install-microk8s)
+
+[Use NFS for Persistent Volumes on MicroK8s](https://microk8s.io/docs/how-to-nfs)
+
+[Example: Deploying WordPress and MySQL with Persistent Volumes](https://kubernetes.io/docs/tutorials/stateful-application/mysql-wordpress-persistent-volume/)
+
+[Deploying MySQL on Kubernetes](https://medium.com/@midejoseph24/deploying-mysql-on-kubernetes-16758a42a746)
+
+[Addon: cert-manager](https://microk8s.io/docs/addon-cert-manager)
+
+
+
+
+
 
