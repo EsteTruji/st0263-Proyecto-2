@@ -53,7 +53,7 @@ Se implementó para este proyecto la siguiente arquitectura:
 ## 3. Descripción del ambiente de ejecución lenguaje de programación, librerias, paquetes, etc, con sus numeros de versiones.
 
 
-**IPs utilizadas en el reto 4:**
+**IPs utilizadas en el proyecto 2:**
 
 **IPs Privadas:**
 
@@ -65,7 +65,6 @@ Se implementó para este proyecto la siguiente arquitectura:
 - **DataBase:** 35.192.174.33
 
 
-Cabe resaltar que para el desarrollo y cumplimiento de este reto no fue necesario instalar ningun otro paquete o libreria adicional ya que todos los recursos utilizados son nativos de GCP.
 
 
 ## 4. Guía paso a paso de instalación y configuración
