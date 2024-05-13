@@ -46,9 +46,7 @@ No logro obtener el certificado SSL para implementar https dentro de la aplicaci
 
 Se implementó para este proyecto la siguiente arquitectura:
 
-![microck8s_final](https://github.com/EsteTruji/st0263-proyecto-2/assets/81714113/515290fc-fb60-4553-b6d2-7d8df11b2535)
-
-
+![final](https://github.com/EsteTruji/st0263-proyecto-2/assets/81714113/8ce8351a-f377-4b68-8c73-754e203b2022)
 
 ## 3. Descripción del ambiente de ejecución lenguaje de programación, librerias, paquetes, etc, con sus numeros de versiones.
 
