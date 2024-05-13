@@ -1,4 +1,3 @@
-
 # Info de la materia: ST0263 - Tópicos Especiales en Telemática
 
 ### Estudiantes:
@@ -9,38 +8,40 @@
 
 ### Profesor: Edwin Montoya, emontoya@eafit.edu.co
 
-# Reto 4 
+# Proyecto 2 
 
 # Video sustentación
 
 [![Video](https://img.youtube.com/vi/6Vu73vi8l-g/0.jpg)](https://www.youtube.com/watch?v=6Vu73vi8l-g)
 
 ## 1. Breve descripción de la actividad
-Se desplegó un CMS wordpress (app monolítica) en una arquitectura distribuida haciendo uso de tecnologías como Kubernets, proveedores de dominio como GoDaddy y servicios de Google Cloud Platform.
 
-En este reto utilizamos los servicios de balanceador de cargas, Filestore y Cloud SQL nativos de google para satisfacer las necesidades de nuestra aplicación. utilizando un servicio administrado de NFS en la nube a partir de la API de Filestore para disponer del sistema de archivos. se desplegaron (PENDIENTE POR CONFIRMAR Y ANOTAR) maquinas virtuales en google cloud.
+Se desplegó un CMS Wordpress en un clúster de alta disponibilidad en Kubernetes desplegado como IaaS (Infrastructure as a Service) montado en diferentes máquinas virtuales, con la distribución microk8s. Se consideraron además los volúmenes compartidos y la capa de acceso al clúster, Ingress.
 
+Para el Load Balancer se instaló nginx y se configuró con un objeto Ingress que ayuda a administrar el acceso externo proporcionando reglas de enrutamiento http/s a los servicios dentro del clúster. Además está la instancia de Wordpress y la de la base de datos, en este caso MySQL y finalmente se implementó un servicio de almacenamiento distribuido NFS (Network File System).
 
-
+En este proyecto hicimos uso de tecnologías como Kubernetes, proveedores de dominio como GoDaddy y servicios de Google Cloud Platform.
 ### 1.1. Que aspectos cumplió o desarrolló de la actividad propuesta por el profesor (requerimientos funcionales y no funcionales)
 
 **NO FUNCIONALES**
 
 -	**DISPONIBILIDAD:**
-    -  Despliegue de  aplicación wordpress con varios pods utilizando Kubernetes.
-    -  Implementar un balanceador de cargas basado en los servicios nativos de Google que reciba el tráfico web http de Internet con múltiples instancias de procesamiento.
+    -  Despliegue de aplicación wordpress utilizando Kubernetes.
+    -  Implementación de balanceador de cargas que reciba el tráfico web http/s de Internet con múltiples instancias de procesamiento.
    
 
 **FUNCIONALES**
--	Almacenamiento en la capa de datos haciendo uso del servicio de bases de datos mysql ofrecido por Google.
-- Almacenamiento de archivos implementado haciendo uso del servicio de NFS ofrecido por Google.
+- Clúster instalado en nube con mikrok8s.
+- Almacenamiento en la capa de datos haciendo uso de una base de datos MySQL.
+- Almacenamiento de archivos distribuido implementado haciendo uso del NFS dentro del mismo clúster.
 - Conexion de servicios de wordpress con el servicio NFS.
+- Certificado SSL para habilitar la conexión cifrada. (https)
 
 
 
 ### 1.2. Que aspectos NO cumplió o desarrolló de la actividad propuesta por el profesor (requerimientos funcionales y no funcionales)
 
-No logro obtener el certificado SSL para implementar https dentro de la aplicación.
+Se cumplió con todos los requerimientos propuestos por el profesor.
 
 ## 2. Información general de diseño de alto nivel, arquitectura, patrones, mejores prácticas utilizadas.
 
