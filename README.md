@@ -46,7 +46,8 @@ No logro obtener el certificado SSL para implementar https dentro de la aplicaci
 
 Se implementó para este proyecto la siguiente arquitectura:
 
-![final](https://github.com/EsteTruji/st0263-proyecto-2/assets/81714113/8ce8351a-f377-4b68-8c73-754e203b2022)
+![final](https://github.com/EsteTruji/st0263-proyecto-2/assets/81714113/cd8fd171-5521-4053-a4de-90334a762d4c)
+
 
 ## 3. Descripción del ambiente de ejecución lenguaje de programación, librerias, paquetes, etc, con sus numeros de versiones.
 
