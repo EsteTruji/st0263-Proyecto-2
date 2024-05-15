@@ -695,36 +695,7 @@ kubectl apply -f nginx-ingress-2.yaml
 ```
 **Nota:** deberá esperar unos momentos para que se creen los certificados TLS correspondientes y se almacenen en las carpetas respectivas. 
 
-- Después de varios minutos, proceda a ejecutar el siguiente comando:
-```
-kubectl delete ingress wordpress-ingress
-```
-- Ahora, cree otro archivo llamado ```nginx-ingress.yaml```, con el siguiente comando:
-```
-nano nginx-ingress.yaml
-```
-- Coloque dentro de ese archivo recién creado y abierto el siguiente contenido:
-```
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: wordpress-ingress
-spec:
-  rules:
-  - http:
-      paths:
-      - path: /  
-        pathType: Prefix
-        backend:
-          service:
-            name: wordpress
-            port:
-              number: 80
-```
-- Proceda a aplicar ese archivo con el comando:
-```
-kubectl apply -f nginx-ingress.yaml
-```
+- Después de varios minutos, proceda a la siguiente sección.
 
 #### Verificación del funcionamiento de la aplicación.
 
