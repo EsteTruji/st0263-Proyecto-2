@@ -47,8 +47,7 @@ Se cumplió con todos los requerimientos presentados por el profesor.
 
 Se implementó para este proyecto la siguiente arquitectura:
 
-![Diagrama_Arquitectura_Proyecto-2 drawio](https://github.com/EsteTruji/st0263-proyecto-2/assets/82886890/8cf3f953-e859-477e-a6d4-cf8778b6fbf5)
-
+![Diagrama_Arquitectura_Proyecto-2](https://github.com/EsteTruji/st0263-proyecto-2/assets/82886890/ff3246f2-ad54-421d-962c-231fb4c417dd)
 
 
 ## 3. Descripción del ambiente de ejecución lenguaje de programación, librerias, paquetes, etc, con sus numeros de versiones.
