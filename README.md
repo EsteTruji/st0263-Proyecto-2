@@ -74,6 +74,9 @@ Se implementó para este proyecto la siguiente arquitectura:
   - **microk8s-worker-2:** 35.225.33.19
   - **microk8s-nfs:** 35.194.29.223
 
+![Kubernetes_toda_info_pods](https://github.com/EsteTruji/st0263-proyecto-2/assets/82886890/12a6f171-1989-4f29-bc16-321877c42f5e)
+
+![Wordpress_y_DB_en_pods](https://github.com/EsteTruji/st0263-proyecto-2/assets/82886890/db1fbf57-00b6-49e6-b004-f840820cb1a2)
 
 
 ## 4. Guía paso a paso de instalación y configuración
