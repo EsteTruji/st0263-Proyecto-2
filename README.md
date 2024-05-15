@@ -27,7 +27,7 @@ En este proyecto hicimos uso de tecnologías como Kubernetes, proveedores de dom
 
 -	**DISPONIBILIDAD:**
     -  Despliegue de aplicación wordpress utilizando Kubernetes.
-    -  Implementación de balanceador de cargas que reciba el tráfico web http/s de Internet con múltiples instancias de procesamiento.
+    -  Implementación de balanceador de cargas que reciba el tráfico web HTTPS de Internet con múltiples instancias de procesamiento.
    
 
 **FUNCIONALES**
@@ -35,13 +35,13 @@ En este proyecto hicimos uso de tecnologías como Kubernetes, proveedores de dom
 - Almacenamiento en la capa de datos haciendo uso de una base de datos MySQL.
 - Almacenamiento de archivos distribuido implementado haciendo uso del NFS dentro del mismo clúster.
 - Conexion de servicios de wordpress con el servicio NFS.
-- Certificado SSL para habilitar la conexión cifrada. (https)
+- Certificado SSL para habilitar la conexión cifrada (HTTPS).
 
 
 
 ### 1.2. Que aspectos NO cumplió o desarrolló de la actividad propuesta por el profesor (requerimientos funcionales y no funcionales)
 
-Se cumplió con todos los requerimientos propuestos por el profesor.
+Se cumplió con todos los requerimientos presentados por el profesor.
 
 ## 2. Información general de diseño de alto nivel, arquitectura, patrones, mejores prácticas utilizadas.
 
@@ -56,14 +56,23 @@ Se implementó para este proyecto la siguiente arquitectura:
 **IPs utilizadas en el proyecto 2:**
 
 **IPs Privadas:**
-
-- **Servicio Kubernetes:** 10.103.192.1
+- **Instancias:**
+  - **microk8s-master:** 10.128.0.10
+  - **microk8s-worker-1:** 10.128.0.11
+  - **microk8s-worker-2:** 10.128.0.11
+  - **microk8s-nfs:** 10.128.0.13
+- **Servicio Kubernetes:** 10.152.183.1
 - **Servicio Load balancer:** 10.103.193.248
+- **Servicio WordPress:** 10.152.183.219
+- **Réplicas WordPress:** 10.1.59.82 y 10.1.122.82
+- **Base de datos:** 10.1.59.81
 
 **IPs Públicas:**
-- **Servicio Load balancer:** 34.171.91.170
-- **DataBase:** 35.192.174.33
-
+- **Instancias:**
+  - **microk8s-master:** 35.194.29.223
+  - **microk8s-worker-1:** 35.225.33.19
+  - **microk8s-worker-2:** 35.225.33.19
+  - **microk8s-nfs:** 35.194.29.223
 
 
 
