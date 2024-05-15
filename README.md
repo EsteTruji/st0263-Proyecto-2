@@ -18,9 +18,9 @@
 
 Se desplegó un CMS Wordpress en un clúster de alta disponibilidad en Kubernetes desplegado como IaaS (Infrastructure as a Service) montado en diferentes máquinas virtuales, con la distribución microk8s. Se consideraron además los volúmenes compartidos y la capa de acceso al clúster, Ingress.
 
-Para el Load Balancer se instaló nginx y se configuró con un objeto Ingress que ayuda a administrar el acceso externo proporcionando reglas de enrutamiento http/s a los servicios dentro del clúster. Además está la instancia de Wordpress y la de la base de datos, en este caso MySQL y finalmente se implementó un servicio de almacenamiento distribuido NFS (Network File System).
+Para el Load Balancer se instaló nginx y se configuró con un objeto Ingress que ayuda a administrar el acceso externo proporcionando reglas de enrutamiento http/s a los servicios dentro del clúster. Además están las dos instancias de WordPress y la de la base de datos, en este caso MySQL, y finalmente se implementó un servicio de almacenamiento distribuido NFS (Network File System).
 
-En este proyecto hicimos uso de tecnologías como Kubernetes, proveedores de dominio como GoDaddy y servicios de Google Cloud Platform.
+En este proyecto hicimos uso de tecnologías como Kubernetes, proveedores de dominio como GoDaddy y servicios de Google Cloud Platform (Máquinas VM/Instancias).
 ### 1.1. Que aspectos cumplió o desarrolló de la actividad propuesta por el profesor (requerimientos funcionales y no funcionales)
 
 **NO FUNCIONALES**
