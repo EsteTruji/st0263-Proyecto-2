@@ -12,7 +12,8 @@
 
 # Video sustentación
 
-[![Video](https://img.youtube.com/vi/6Vu73vi8l-g/0.jpg)](https://www.youtube.com/watch?v=6Vu73vi8l-g)
+[![Video](https://img.youtube.com/vi/drZ2RaBITDw/0.jpg)](https://www.youtube.com/watch?v=drZ2RaBITDw)
+
 
 ## 1. Breve descripción de la actividad
 
